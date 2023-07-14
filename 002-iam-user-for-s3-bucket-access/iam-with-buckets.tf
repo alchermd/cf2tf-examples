@@ -7,6 +7,12 @@ terraform {
   }
 }
 
+resource "random_string" "bucket_suffix" {
+  length  = 16
+  special = false
+  upper   = false
+}
+
 variable "aws_profile" {
   type = string
 }
@@ -16,17 +22,21 @@ provider "aws" {
   profile = var.aws_profile
 }
 
-resource "aws_s3_bucket" "catpics" {}
+resource "aws_s3_bucket" "catpics" {
+  bucket = "catpics-${random_string.bucket_suffix.result}"
+}
 
-resource "aws_s3_bucket" "animalpics" {}
+resource "aws_s3_bucket" "animalpics" {
+  bucket = "animalpics-${random_string.bucket_suffix.result}"
+}
 
 resource "aws_iam_user" "sally" {
   name = "sally"
 }
 
 resource "aws_iam_user_login_profile" "sally_login_profile" {
-  name = "sally_login_profile"
-  user = aws_iam_user.sally.name
+  user                    = aws_iam_user.sally.name
+  password_reset_required = true
 }
 
 resource "aws_iam_policy" "allow_all_s3_except_cats" {
