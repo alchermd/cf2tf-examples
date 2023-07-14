@@ -13,7 +13,7 @@ Create:
 ```console
 $ CFBUCKETNAME=cfbucket-$RANDOM
 $ aws s3api create-bucket --bucket $CFBUCKETNAME
-$ aws cloudformation deploy --template-file ./ec2-instance.yml --stack-name BasicEC2Deployment --s3-bucket $CFBUCKETNAME
+$ aws cloudformation deploy --template-file ./ec2-instance.yml --stack-name BasicEC2Deployment --s3-bucket $CFBUCKETNAME --capabilities CAPABILITY_NAMED_IAM
 ```
 
 Destroy:
